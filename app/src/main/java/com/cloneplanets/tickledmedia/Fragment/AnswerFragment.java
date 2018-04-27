@@ -1,23 +1,28 @@
 package com.cloneplanets.tickledmedia.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.cloneplanets.tickledmedia.Adapter.AnswerRecyclerViewAdapter;
 import com.cloneplanets.tickledmedia.R;
+import com.cloneplanets.tickledmedia.Retrofit.AnswerContributor.AnswerContributor;
+import com.cloneplanets.tickledmedia.Retrofit.TMServices;
+import com.cloneplanets.tickledmedia.TMApplication;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AnswerFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AnswerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class AnswerFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,24 +30,21 @@ public class AnswerFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String QUESTION;
     private String mParam2;
+    private TextView txtQuestions;
+    private RecyclerView answerecyclerview;
 
-    private OnFragmentInteractionListener mListener;
+
+    @Inject
+    TMServices services;
+    private ProgressBar progressBar2;
 
     public AnswerFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AnswerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static AnswerFragment newInstance(String param1, String param2) {
         AnswerFragment fragment = new AnswerFragment();
         Bundle args = new Bundle();
@@ -56,7 +58,7 @@ public class AnswerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            QUESTION = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -65,45 +67,31 @@ public class AnswerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_answer, container, false);
+      View view= inflater.inflate(R.layout.fragment_answer, container, false);
+        ((TMApplication)getActivity().getApplication()).getComponents().inject(this);
+      txtQuestions=(TextView)view.findViewById(R.id.txtQuestions);
+      answerecyclerview=(RecyclerView)view.findViewById(R.id.answerecyclerview);
+      answerecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        progressBar2=(ProgressBar)view.findViewById(R.id.progressBar2);
+        services.getAnswers().enqueue(new Callback<AnswerContributor>() {
+            @Override
+            public void onResponse(Call<AnswerContributor> call, Response<AnswerContributor> response) {
+
+                answerecyclerview.setAdapter(new AnswerRecyclerViewAdapter(getActivity(),response.body().getResponse()));
+                progressBar2.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<AnswerContributor> call, Throwable t) {
+                progressBar2.setVisibility(View.GONE);
+            }
+        });
+
+      txtQuestions.setText(QUESTION+" ?");
+
+      return view;
+
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

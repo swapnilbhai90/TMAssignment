@@ -1,5 +1,6 @@
 package com.cloneplanets.tickledmedia.Dagger;
 
+import com.cloneplanets.tickledmedia.Fragment.AnswerFragment;
 import com.cloneplanets.tickledmedia.Fragment.QuestionFragment;
 import com.cloneplanets.tickledmedia.MainActivity;
 
@@ -15,6 +16,7 @@ import dagger.Component;
 public interface AppComponent {
 
   void inject(MainActivity activity);
+  void inject(AnswerFragment activity);
   void inject(QuestionFragment activity);
 
 

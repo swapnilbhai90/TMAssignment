@@ -23,4 +23,23 @@ public class Response {
     @Expose
     public List<Comment> comments = null;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
 }

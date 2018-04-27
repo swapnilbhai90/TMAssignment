@@ -17,4 +17,15 @@ public class AnswerContributor {
     @Expose
     public List<Response> response = null;
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public List<Response> getResponse() {
+        return response;
+    }
 }

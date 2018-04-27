@@ -10,4 +10,7 @@ public class Comment {
     @Expose
     public String message;
 
+    public String getMessage() {
+        return message;
+    }
 }

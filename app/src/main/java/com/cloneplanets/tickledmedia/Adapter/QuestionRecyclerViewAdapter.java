@@ -1,4 +1,4 @@
-package com.cloneplanets.tickledmedia.Fragment;
+package com.cloneplanets.tickledmedia.Adapter;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
@@ -12,21 +12,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cloneplanets.tickledmedia.Fragment.QuestionFragment.OnListFragmentInteractionListener;
-import com.cloneplanets.tickledmedia.Fragment.dummy.DummyContent.DummyItem;
+import com.cloneplanets.tickledmedia.Fragment.AnswerFragment;
 import com.cloneplanets.tickledmedia.MainActivity;
 import com.cloneplanets.tickledmedia.R;
 import com.cloneplanets.tickledmedia.Retrofit.QuestonContributor.Response;
 
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class QuestionRecyclerViewAdapter extends RecyclerView.Adapter<QuestionRecyclerViewAdapter.ViewHolder> {
 
 
     private final Context context;
 
     List<Response> response;
-    public MyItemRecyclerViewAdapter( Context context, List<Response> response) {
+    public QuestionRecyclerViewAdapter(Context context, List<Response> response) {
 
         this.context=context;
         this.response=response;
@@ -83,7 +82,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
 
 
-                    AnswerFragment finalFragment = AnswerFragment.newInstance("","");
+                    AnswerFragment finalFragment = AnswerFragment.newInstance(response.get(position).getMessage(),"");
                     FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.layout_fragment_container, finalFragment);
@@ -107,7 +106,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         private final ImageView img_edit;
         private final TextView txt_save;
         private final EditText edtQuestion;
-        public DummyItem mItem;
+
 
         public ViewHolder(View view) {
             super(view);

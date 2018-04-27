@@ -1,11 +1,15 @@
 package com.cloneplanets.tickledmedia;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.cloneplanets.tickledmedia.Fragment.QuestionFragment;
@@ -27,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setStatusBarColor();
         displayQuestionFragment();
 
 
@@ -35,11 +39,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void setStatusBarColor() {
+        Window window =getWindow();
+
+// clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+// finally change the color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.harleydavidsion));
+        }
+    }
+
     private void displayQuestionFragment() {
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         QuestionFragment fragment =QuestionFragment.newInstance(2);
         fragmentTransaction.add(R.id.layout_fragment_container, fragment);
         fragmentTransaction.commit();
