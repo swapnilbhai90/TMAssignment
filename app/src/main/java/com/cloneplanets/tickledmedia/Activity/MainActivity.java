@@ -1,4 +1,4 @@
-package com.cloneplanets.tickledmedia;
+package com.cloneplanets.tickledmedia.Activity;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.cloneplanets.tickledmedia.Fragment.QuestionFragment;
+import com.cloneplanets.tickledmedia.R;
 import com.cloneplanets.tickledmedia.Retrofit.AnswerContributor.AnswerContributor;
 import com.cloneplanets.tickledmedia.Retrofit.QuestonContributor.QuestonContributor;
 import com.cloneplanets.tickledmedia.Retrofit.TMServices;

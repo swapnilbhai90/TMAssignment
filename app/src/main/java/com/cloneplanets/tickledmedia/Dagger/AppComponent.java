@@ -2,7 +2,7 @@ package com.cloneplanets.tickledmedia.Dagger;
 
 import com.cloneplanets.tickledmedia.Fragment.AnswerFragment;
 import com.cloneplanets.tickledmedia.Fragment.QuestionFragment;
-import com.cloneplanets.tickledmedia.MainActivity;
+import com.cloneplanets.tickledmedia.Activity.MainActivity;
 
 import javax.inject.Singleton;
 

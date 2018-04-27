@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cloneplanets.tickledmedia.Fragment.AnswerFragment;
-import com.cloneplanets.tickledmedia.MainActivity;
+import com.cloneplanets.tickledmedia.Activity.MainActivity;
 import com.cloneplanets.tickledmedia.R;
 import com.cloneplanets.tickledmedia.Retrofit.QuestonContributor.Response;
 
@@ -29,7 +29,7 @@ public class QuestionRecyclerViewAdapter extends RecyclerView.Adapter<QuestionRe
 
         this.context=context;
         this.response=response;
-        Log.e("Response :-",response.size()+"");
+
     }
 
 
@@ -76,11 +76,6 @@ public class QuestionRecyclerViewAdapter extends RecyclerView.Adapter<QuestionRe
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-
-
 
                     AnswerFragment finalFragment = AnswerFragment.newInstance(response.get(position).getMessage(),"");
                     FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
