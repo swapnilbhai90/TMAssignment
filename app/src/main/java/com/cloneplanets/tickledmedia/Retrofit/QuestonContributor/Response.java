@@ -35,6 +35,10 @@ public class Response {
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public String getImage() {
         return image;
     }

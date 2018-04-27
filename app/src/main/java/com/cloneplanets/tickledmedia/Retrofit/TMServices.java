@@ -13,10 +13,10 @@ import retrofit2.http.Query;
 
 public interface TMServices {
 
-    @GET("19i7wt")
+    @GET("vt8zx")
     Call<QuestonContributor> getQuestion();
 
 
-    @GET("vt8zx")
+    @GET("19i7wt")
     Call<AnswerContributor> getAnswers();
 }

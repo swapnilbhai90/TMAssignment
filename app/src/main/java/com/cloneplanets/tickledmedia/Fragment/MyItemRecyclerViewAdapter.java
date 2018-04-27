@@ -4,9 +4,12 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cloneplanets.tickledmedia.Fragment.QuestionFragment.OnListFragmentInteractionListener;
@@ -17,23 +20,19 @@ import com.cloneplanets.tickledmedia.Retrofit.QuestonContributor.Response;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+
     private final Context context;
+
     List<Response> response;
-    public MyItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener, Context context, List<Response> response) {
-        mValues = items;
-        mListener = listener;
+    public MyItemRecyclerViewAdapter( Context context, List<Response> response) {
+
         this.context=context;
         this.response=response;
+        Log.e("Response :-",response.size()+"");
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,10 +42,37 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        holder.question.setText(response.get(position).getMessage());
+        holder.txt_msg.setText(response.get(position).getComments().get(0).getMessage());
+
+        holder.img_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.edtQuestion.setVisibility(View.VISIBLE);
+                holder.edtQuestion.setText(response.get(position).getMessage());
+                holder.img_edit.setVisibility(View.GONE);
+                holder.question.setVisibility(View.GONE);
+                holder.txt_save.setVisibility(View.VISIBLE);
+
+            }
+        });
+        holder.txt_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                response.get(position).setMessage(holder.edtQuestion.getText().toString());
+                holder.question.setText(response.get(position).getMessage());
+                holder.edtQuestion.setVisibility(View.GONE);
+                holder.img_edit.setVisibility(View.VISIBLE);
+                holder.question.setVisibility(View.VISIBLE);
+                holder.txt_save.setVisibility(View.GONE);
+
+
+
+            }
+        });
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +80,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
+
+
 
                     AnswerFragment finalFragment = AnswerFragment.newInstance("","");
                     FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
@@ -74,21 +102,23 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView question;
+        private final TextView txt_msg;
+        private final ImageView img_edit;
+        private final TextView txt_save;
+        private final EditText edtQuestion;
         public DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            question = (TextView) view.findViewById(R.id.txt_question);
+            txt_msg = (TextView) view.findViewById(R.id.txt_msg);
+            img_edit=(ImageView)view.findViewById(R.id.img_edit);
+            txt_save=(TextView)view.findViewById(R.id.txt_save);
+            edtQuestion=(EditText)view.findViewById(R.id.edtQuestion);
 
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
     }
 }

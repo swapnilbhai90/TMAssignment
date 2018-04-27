@@ -23,19 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     private FrameLayout fragment_container;
 
-    @Inject
-    SharedPreferences preferences;
-
-    @Inject
-    TMServices services;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        ((TMApplication)getApplication()).getComponents().inject(this);
+
         displayQuestionFragment();
 
 

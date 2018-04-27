@@ -88,7 +88,8 @@ public class QuestionFragment extends Fragment {
             public void onResponse(Call<QuestonContributor> call, Response<QuestonContributor> response) {
 
                 progressBar.setVisibility(View.GONE);
-                recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener,getActivity(),response.body().getResponse()));
+                recyclerView.setAdapter(new MyItemRecyclerViewAdapter(getActivity(),response.body().getResponse()));
+
             }
 
             @Override
